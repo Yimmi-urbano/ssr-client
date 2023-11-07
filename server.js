@@ -20,6 +20,7 @@ app.get('/', async (req, res) => {
 
     const fileName = `${bucketName}/${themeSelect}/index.ejs`; 
 
+console.log('que pasa');
 
     try {
         const [file] = await bucket.file(fileName).download();
