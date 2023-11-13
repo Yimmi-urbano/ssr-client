@@ -8,12 +8,16 @@ const bucket = storage.bucket('stores-crece');
 const ejs = require('ejs'); 
 require('dotenv').config();
 
+const serverless = require('serverless-http');
+
+
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
-    const domain =  req.hostname;
+
+    const domain =  'pollerialaguapa.creceidea.com'//req.hostname;
     const _fieldCompany = await apiFunctions.getInfoCompany(domain);
     const typeService = _fieldCompany.typeService;
     const nameCompany= _fieldCompany.nameCompany;
@@ -24,12 +28,15 @@ app.get('/', async (req, res) => {
     const themeSelect = _fieldCompany.theme;
     const fileName = `${bucketName}/${themeSelect}/index.ejs`; 
 
+
     try {
         const [file] = await bucket.file(fileName).download();
 
         if (file) {
             const fileContents = file.toString('utf-8');
+
             const renderedTemplate = ejs.render(fileContents, { nameCompany: nameCompany, themeColor: themeColor, infoCompany:infoCompany, getversion:getversion});
+
             res.send(renderedTemplate);
         } else {
             res.status(404).send('El archivo no se encontró en el almacenamiento de Google Cloud.');
@@ -41,8 +48,9 @@ app.get('/', async (req, res) => {
 });
 
 
-
-
-app.listen(port, () => {
+/*app.listen(port, () => {
     console.log(`La aplicación SSR está funcionando en http://localhost:${port}`);
-});
+});*/
+
+module.exports.handler = serverless(app);
+

@@ -1,0 +1,16 @@
+service: crec-html-gnrt
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: us-east-1
+  memorysize: 128
+
+functions:
+  html_gnrt:
+    handler: index.handler
+    events:
+      - http:
+          path: /
+          method: get
