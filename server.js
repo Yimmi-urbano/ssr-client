@@ -14,19 +14,22 @@ app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
     const domain =  req.hostname;
-    const typeService = await apiFunctions.getTypeService(domain);
+    const _fieldCompany = await apiFunctions.getInfoCompany(domain);
+    const typeService = _fieldCompany.typeService;
+    const nameCompany= _fieldCompany.nameCompany;
+    const infoCompany= _fieldCompany;
+    const themeColor= _fieldCompany.appearance['colors'].primary;
+    const getversion = apiFunctions.getversion();
     const bucketName = apiFunctions.getBucketName(typeService);
-    const themeSelect = await apiFunctions.getThemeSelect(domain);
-
+    const themeSelect = _fieldCompany.theme;
     const fileName = `${bucketName}/${themeSelect}/index.ejs`; 
-
 
     try {
         const [file] = await bucket.file(fileName).download();
 
         if (file) {
             const fileContents = file.toString('utf-8');
-            const renderedTemplate = ejs.render(fileContents, { message: 'Servicio: '+typeService+' | theme: '+themeSelect+' | Dominio: '+domain });
+            const renderedTemplate = ejs.render(fileContents, { nameCompany: nameCompany, themeColor: themeColor, infoCompany:infoCompany, getversion:getversion});
             res.send(renderedTemplate);
         } else {
             res.status(404).send('El archivo no se encontró en el almacenamiento de Google Cloud.');
@@ -36,6 +39,9 @@ app.get('/', async (req, res) => {
         res.status(500).send('Ocurrió un error al cargar y renderizar el archivo.');
     }
 });
+
+
+
 
 app.listen(port, () => {
     console.log(`La aplicación SSR está funcionando en http://localhost:${port}`);
