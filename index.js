@@ -16,8 +16,9 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
-
-    const domain =  'pollerialaguapa.creceidea.com'//req.hostname;
+    let _headers = req.headers;
+    //const domain =  'startsyncx.com'//req.hostname;
+    const domain = _headers.server_name.replace('www.','');
     const _fieldCompany = await apiFunctions.getInfoCompany(domain);
     const typeService = _fieldCompany.typeService;
     const nameCompany= _fieldCompany.nameCompany;
@@ -46,7 +47,6 @@ app.get('/', async (req, res) => {
         res.status(500).send('Ocurrió un error al cargar y renderizar el archivo.');
     }
 });
-
 
 /*app.listen(port, () => {
     console.log(`La aplicación SSR está funcionando en http://localhost:${port}`);
