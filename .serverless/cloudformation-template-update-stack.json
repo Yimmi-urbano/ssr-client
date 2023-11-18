@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/crec-html-gnrt/dev/1699945044459-2023-11-14T06:57:24.459Z/crec-html-gnrt.zip"
+          "S3Key": "serverless/crec-html-gnrt/dev/1699945480150-2023-11-14T07:04:40.150Z/crec-html-gnrt.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs16.x",
@@ -180,14 +180,14 @@
         "HtmlUnderscoregnrtLogGroup"
       ]
     },
-    "HtmlUnderscoregnrtLambdaVersionE05tXb2Ugybwgbxirw9CgAKqlDi9DwO6UTevWouD4": {
+    "HtmlUnderscoregnrtLambdaVersion0RoxXtf59TOEIIbLqUb8kwXST9uw7wf2Ezo5PwjE0c": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HtmlUnderscoregnrtLambdaFunction"
         },
-        "CodeSha256": "b3cwxE95OfaQ5IAMmjpkMoFYRmubTsHNoCZEV6Baa6c="
+        "CodeSha256": "1DZzLpZVyR8SjfD57qQudMckXNKVHj0Gf0LdjHA9bSA="
       }
     },
     "ApiGatewayRestApi": {
@@ -200,21 +200,6 @@
           ]
         },
         "Policy": ""
-      }
-    },
-    "ApiGatewayResourceIdVar": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "{id}",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
       }
     },
     "ApiGatewayMethodGet": {
@@ -266,53 +251,7 @@
         "HtmlUnderscoregnrtLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodIdVarGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "HtmlUnderscoregnrtLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      },
-      "DependsOn": [
-        "HtmlUnderscoregnrtLambdaPermissionApiGateway"
-      ]
-    },
-    "ApiGatewayDeployment1699945042734": {
+    "ApiGatewayDeployment1699945478599": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -321,8 +260,7 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodGet",
-        "ApiGatewayMethodIdVarGet"
+        "ApiGatewayMethodGet"
       ]
     },
     "HtmlUnderscoregnrtLambdaPermissionApiGateway": {
@@ -375,7 +313,7 @@
     "HtmlUnderscoregnrtLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HtmlUnderscoregnrtLambdaVersionE05tXb2Ugybwgbxirw9CgAKqlDi9DwO6UTevWouD4"
+        "Ref": "HtmlUnderscoregnrtLambdaVersion0RoxXtf59TOEIIbLqUb8kwXST9uw7wf2Ezo5PwjE0c"
       },
       "Export": {
         "Name": "sls-crec-html-gnrt-dev-HtmlUnderscoregnrtLambdaFunctionQualifiedArn"
